@@ -45,3 +45,5 @@ plugins {
 }
 
 include(":composeApp")
+include(":androidApp")
+include(":jvmApp")
