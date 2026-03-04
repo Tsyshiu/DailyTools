@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -9,6 +8,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.symbolCraft)
 }
 
 kotlin {
@@ -51,7 +51,6 @@ kotlin {
         implementation(libs.compose.icons)
 
 
-
         // 3rd party
         implementation(libs.kermit)
 
@@ -64,6 +63,73 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+}
+
+symbolCraft {
+    // Generated Kotlin package name (required)
+    packageName.set("com.github.tsyshiu.dailytools.symbols")
+
+    // Output directory (supports multiplatform projects)
+    outputDirectory.set("src/commonMain/kotlin")
+
+    // Cache configuration
+    cacheEnabled.set(true)  // Default: true
+    cacheDirectory.set("symbolcraft-cache")  // Default: "symbolcraft-cache" (relative to build/)
+
+    // Preview configuration
+    generatePreview.set(false)  // Default: false - Whether to generate Compose @Preview functions
+
+    // Download retry configuration
+    maxRetries.set(3)  // Default: 3 - Maximum number of retry attempts for failed downloads
+    retryDelayMs.set(1000)  // Default: 1000ms - Initial delay between retries
+
+    // Icon naming configuration (optional)
+    naming {
+        pascalCase()  // Default naming convention
+        // Available options: pascalCase(), camelCase(), snakeCase(), kebabCase(), etc.
+    }
+
+    // // Individual icon configuration (using Int weight values)
+    // materialSymbol("search") {
+    //     style(weight = 400, variant = SymbolVariant.OUTLINED, fill = SymbolFill.UNFILLED)
+    //     style(weight = 500, variant = SymbolVariant.OUTLINED, fill = SymbolFill.FILLED)
+    // }
+    //
+    // // Or using SymbolWeight enum for type safety
+    // materialSymbol("home") {
+    //     style(weight = SymbolWeight.W400, variant = SymbolVariant.OUTLINED)
+    //     style(weight = SymbolWeight.W500, variant = SymbolVariant.ROUNDED)
+    // }
+    //
+    // // Convenient batch configuration methods
+    // materialSymbol("person") {
+    //     standardWeights() // Auto-add 400, 500, 700 weights
+    // }
+    //
+    // materialSymbol("settings") {
+    //     allVariants(weight = 400) // Add all variants (outlined, rounded, sharp)
+    // }
+    //
+    // materialSymbol("favorite") {
+    //     bothFills(weight = 500, variant = SymbolVariant.ROUNDED) // Add both filled and unfilled
+    // }
+    //
+    // // Batch configure multiple icons
+    // materialSymbols("star", "bookmark") {
+    //     weights(400, 500, variant = SymbolVariant.OUTLINED)
+    // }
+    //
+    // // Local SVG files stored in the repository
+    // localIcons {
+    //     directory = "src/commonMain/resources/icons"
+    //     // include("**/*.svg") // optional, defaults to **/*.svg
+    // }
+    //
+    // localIcons(libraryName = "brand") {
+    //     directory = "design/exported"
+    //     include("brand/**/*.svg")
+    //     exclude("legacy/**")
+    // }
 }
 
 

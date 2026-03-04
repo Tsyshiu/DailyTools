@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.tsyshiu.dailytools.tools.calculateHash
 import kotlinx.coroutines.launch
@@ -52,6 +53,7 @@ actual fun PlatformSpecificTools() {
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 private fun HashCalculate() {
     var selectedFile by remember { mutableStateOf<File?>(null) }
@@ -87,7 +89,7 @@ private fun HashCalculate() {
                         return false
                     }
                     is DragData.Image -> {
-                        val image = dragData.readImage()
+                        dragData.readImage()
                         // 处理图片
                     }
                 }
