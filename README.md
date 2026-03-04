@@ -1,3 +1,17 @@
+# 小工具
+
+## 功能
+
+### 跨平台
+
+- 日均资产计算
+
+### jvm
+
+- 文件校验值计算
+
+## build
+
 This is a Kotlin Multiplatform project targeting Android, Desktop (JVM).
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
