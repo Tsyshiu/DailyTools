@@ -1,6 +1,5 @@
 package com.github.tsyshiu.dailytools
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -25,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.window.core.layout.WindowSizeClass
+import com.github.tsyshiu.dailytools.ui.screen.FinancialTools
 import com.github.tsyshiu.dailytools.ui.theme.AppTheme
 
 @Composable
@@ -80,13 +80,6 @@ fun App() {
                 1 -> FinancialTools()
             }
         }
-    }
-}
-
-@Composable
-fun FinancialTools() {
-    Column {
-        Text("F")
     }
 }
 

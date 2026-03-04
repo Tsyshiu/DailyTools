@@ -41,6 +41,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.tsyshiu.dailytools.tools.calculateHash
+import com.github.tsyshiu.dailytools.ui.MPadding
+import com.github.tsyshiu.dailytools.ui.MSpace
 import kotlinx.coroutines.launch
 import java.awt.FileDialog
 import java.awt.Frame
@@ -99,9 +101,19 @@ private fun HashCalculate() {
     }
 
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(MPadding.screenPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            "文件校验值计算",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.align(
+                Alignment.Start
+            )
+        )
+
+        Spacer(Modifier.height(MSpace.underH1Title))
+
         val borderColor =
             if (isDragging) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary
         Box(

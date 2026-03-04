@@ -49,6 +49,7 @@ kotlin {
         // implementation(libs.compose.material3.window.size)
         implementation(libs.compose.material3.adaptive)
         implementation(libs.compose.icons)
+        implementation(libs.kotlinx.datetime)
 
 
         // 3rd party

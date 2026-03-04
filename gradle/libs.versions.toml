@@ -1,7 +1,10 @@
 [versions]
 agp = "9.0.1"
+#noinspection UnusedVersionCatalogEntry
 android-compileSdk = "36"
+#noinspection UnusedVersionCatalogEntry
 android-minSdk = "24"
+#noinspection UnusedVersionCatalogEntry
 android-targetSdk = "36"
 androidx-activity = "1.12.4"
 androidx-appcompat = "1.7.1"
@@ -15,6 +18,7 @@ junit = "4.13.2"
 kermit = "2.0.8"
 kotlin = "2.3.10"
 kotlinx-coroutines = "1.10.2"
+kotlinxDatetime = "0.7.1"
 material3 = "1.10.0-alpha05"
 material3-adaptive = "1.2.0"
 material-icon = "1.7.3"
@@ -43,6 +47,7 @@ compose-components-resources = { module = "org.jetbrains.compose.components:comp
 compose-uiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
 kotlinx-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
