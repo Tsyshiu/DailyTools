@@ -2,12 +2,14 @@ package com.github.tsyshiu.dailytools.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.tsyshiu.dailytools.ui.MPadding
 import com.github.tsyshiu.dailytools.ui.MSpace
@@ -30,6 +33,7 @@ import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 
 @Composable
+@Preview
 fun FinancialTools() {
     Column(modifier = Modifier.fillMaxSize().padding(MPadding.screenPadding)) {
         Text("理财计算器", style = MaterialTheme.typography.headlineMedium)
@@ -67,7 +71,7 @@ fun Asset(modifier: Modifier = Modifier) {
             Spacer(Modifier.height(8.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 OutlinedTextField(
@@ -81,7 +85,8 @@ fun Asset(modifier: Modifier = Modifier) {
                     value = currentAssets,
                     onValueChange = { currentAssets = it },
                     label = { Text("当前总资产") },
-                    modifier = Modifier.weight(1f),
+                    singleLine = true,
+                    modifier = Modifier.weight(1f).wrapContentSize(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
                 )
                 OutlinedTextField(

@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -133,4 +134,6 @@ symbolCraft {
     // }
 }
 
-
+tasks.withType<KotlinCompile>().configureEach {
+    dependsOn("generateSymbolCraftIcons")
+}
