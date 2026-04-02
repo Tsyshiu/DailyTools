@@ -23,6 +23,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.github.tsyshiu.dailytools"
             packageVersion = "1.0.0"
+            description = "日常小工具"
         }
     }
 }
