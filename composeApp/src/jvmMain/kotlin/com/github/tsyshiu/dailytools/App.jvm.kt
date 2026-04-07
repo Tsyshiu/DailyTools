@@ -83,6 +83,7 @@ private fun HashCalculate() {
                         // 处理文件
                         if (files.isNotEmpty()) {
                             selectedFile = File(URI(files.first().trim()))
+                            hashResult = ""
                             return true
                         }
                     }
