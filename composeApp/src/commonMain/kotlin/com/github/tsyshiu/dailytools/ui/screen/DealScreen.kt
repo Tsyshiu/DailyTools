@@ -9,16 +9,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -30,24 +29,36 @@ import com.github.tsyshiu.dailytools.ui.MSpace
 @Composable
 fun HuntForDeals() {
     val clipboardManager = LocalClipboardManager.current
-    var inputText by remember { mutableStateOf("") }
-    var convertedText by remember { mutableStateOf("") }
 
+    // 使用 TextFieldState 以支持 scrollState 同步
+    val inputState = rememberTextFieldState()
+    val outputState = rememberTextFieldState()
 
-    val performConversion = {
-        val result = convertMartianToNormal(inputText)
-        convertedText = result
-        if (result.isNotBlank()) {
-            clipboardManager.setText(AnnotatedString(result))
+    // 创建两个 ScrollState 用于同步
+    val scrollState = rememberScrollState()
+
+    // 转换逻辑
+    fun performConversion() {
+        val currentInput = inputState.text.toString()
+        val result = convertMartianToNormal(currentInput)
+        if (outputState.text.toString() != result) {
+            outputState.setTextAndPlaceCursorAtEnd(result)
+            if (result.isNotBlank()) {
+                clipboardManager.setText(AnnotatedString(result))
+            }
         }
+    }
+
+    // 监听输入变化
+    LaunchedEffect(inputState.text) {
+        performConversion()
     }
 
     // 自动识别剪贴板文本 (进入页面时)
     LaunchedEffect(Unit) {
         clipboardManager.getText()?.let {
             if (it.text.isNotBlank()) {
-                inputText = it.text
-                performConversion()
+                inputState.setTextAndPlaceCursorAtEnd(it.text)
             }
         }
     }
@@ -62,13 +73,10 @@ fun HuntForDeals() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
-                value = inputText,
-                onValueChange = {
-                    inputText = it
-                    performConversion()
-                },
+                state = inputState,
                 label = { Text("待转换火星文") },
-                modifier = Modifier.weight(1f).fillMaxHeight()
+                modifier = Modifier.weight(1f).fillMaxHeight(),
+                scrollState = scrollState
             )
 
             Spacer(Modifier.width(8.dp))
@@ -80,15 +88,15 @@ fun HuntForDeals() {
 
         Spacer(Modifier.height(16.dp))
 
-        Text("转换文本：", style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(8.dp))
+        // Text("转换文本：", style = MaterialTheme.typography.titleMedium)
+        // Spacer(Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = convertedText,
-            onValueChange = {},
+            state = outputState,
             readOnly = true,
             modifier = Modifier.fillMaxWidth().weight(1f),
-            label = { Text("转换结果 (已自动复制)") }
+            label = { Text("转换结果 (已自动复制)") },
+            scrollState = scrollState
         )
     }
 }
