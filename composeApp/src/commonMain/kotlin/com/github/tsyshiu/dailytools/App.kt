@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.CardGiftcard
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.outlined.Build
+import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material.icons.outlined.Money
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -25,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.window.core.layout.WindowSizeClass
 import com.github.tsyshiu.dailytools.ui.screen.FinancialTools
+import com.github.tsyshiu.dailytools.ui.screen.HuntForDeals
 import com.github.tsyshiu.dailytools.ui.theme.AppTheme
 
 @Composable
@@ -32,9 +35,10 @@ import com.github.tsyshiu.dailytools.ui.theme.AppTheme
 fun App() {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     var selectedItem by remember { mutableIntStateOf(0) }
-    val items = listOf("MyTools", "理财")
-    val selectedIcons = listOf(Icons.Filled.Build, Icons.Filled.Money)
-    val unselectedIcons = listOf(Icons.Outlined.Build, Icons.Outlined.Money)
+    val items = listOf("MyTools", "理财", "羊毛")
+    val selectedIcons = listOf(Icons.Filled.Build, Icons.Filled.Money, Icons.Filled.CardGiftcard)
+    val unselectedIcons =
+        listOf(Icons.Outlined.Build, Icons.Outlined.Money, Icons.Outlined.CardGiftcard)
 
     // For small screens, show labels (Expanded). For medium/large, hide them (Collapsed).
     // 1. 定义判断逻辑
@@ -78,6 +82,7 @@ fun App() {
             when (selectedItem) {
                 0 -> MyTools()
                 1 -> FinancialTools()
+                2 -> HuntForDeals()
             }
         }
     }
