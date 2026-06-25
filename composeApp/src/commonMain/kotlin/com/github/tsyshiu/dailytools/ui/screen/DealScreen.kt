@@ -112,12 +112,13 @@ private val MARTIAN_RULES = listOf(
     "v" to "vx", "V" to "vx", "呺" to "号", "丑tuan" to "美团",
     "hang" to "行", "珩" to "行", "佧" to "卡", "垠" to "银",
     "中hang" to "中行", "农hang" to "农行", "工hang" to "工行",
-    "交hang" to "行", "兌" to "兑", "幤" to "币", "奬" to "奖",
+    "交hang" to "交行", "兌" to "兑", "幤" to "币", "奬" to "奖",
     "xyk" to "信用卡", "cxk" to "储蓄卡", "荭" to "红", "忦" to "价",
     "開" to "开", "啭杖" to "转账", "満" to "满", "剪" to "减",
     "名鹅" to "名额", "报茗" to "报名", "紬" to "抽", "牰" to "抽", "荟" to "会",
     "單" to "单", "\uD83C\uDC04" to "中", "唰" to "刷",
-    "消沸" to "消费", "biao" to "标", "蕙" to "惠", "搶" to "抢"
+    "消沸" to "消费", "biao" to "标", "蕙" to "惠", "搶" to "抢", "歀" to "款",
+    "rèn务" to "任务"
 ).sortedByDescending { it.first.length } // 关键：按长度倒序排列，确保优先匹配长词
 
 private val MARTIAN_RULES_MAP = MARTIAN_RULES.toMap()

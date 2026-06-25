@@ -20,14 +20,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.tsyshiu.dailytools.ui.MPadding
 import com.github.tsyshiu.dailytools.ui.MSpace
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.daysUntil
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
@@ -192,17 +193,73 @@ private fun getDaysInMonth(year: Int, month: Int): Int {
 
 @Composable
 fun InterestRate(modifier: Modifier = Modifier) {
-    // --- 第二个 Row: 年化利率计算 (留空) ---
+    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val today = now.date
+
+    // 合并为一个日期输入框，支持 2026-4-22 或 2026/4/10 格式
+    var dateStr by remember { mutableStateOf("${now.year}-${now.month.number}-${now.day}") }
+    var yieldStr by remember { mutableStateOf("") }
+
     Card(modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text("年化利率计算 (待开发)", style = MaterialTheme.typography.titleMedium)
+            Text("年化利率计算", style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(8.dp))
+
             Row(
-                modifier = Modifier.fillMaxWidth().height(100.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("功能建设中...", color = MaterialTheme.colorScheme.outline)
+                OutlinedTextField(
+                    value = dateStr,
+                    onValueChange = { dateStr = it },
+                    label = { Text("份额确认日 (如 2026-4-22)") },
+                    modifier = Modifier.weight(2f),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                )
+                OutlinedTextField(
+                    value = yieldStr,
+                    onValueChange = { yieldStr = it },
+                    label = { Text("当前收益 (%)") },
+                    modifier = Modifier.weight(1f),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                )
             }
+
+            Spacer(Modifier.height(16.dp))
+
+            val yield = yieldStr.toDoubleOrNull() ?: 0.0
+
+            // 解析日期格式：支持 YYYY-MM-DD, YYYY/MM/DD 以及 MM-DD (默认当前年)
+            val parts = dateStr.split('-', '/').map { it.trim() }
+            val confirmDate = try {
+                when (parts.size) {
+                    3 -> LocalDate(parts[0].toInt(), parts[1].toInt(), parts[2].toInt())
+                    2 -> LocalDate(now.year, parts[0].toInt(), parts[1].toInt())
+                    else -> null
+                }
+            } catch (e: Exception) {
+                null
+            }
+
+            val resultText = if (confirmDate != null) {
+                val daysDiff = confirmDate.daysUntil(today)
+                if (daysDiff > 0) {
+                    val annualized = yield / daysDiff * 365
+                    "已持有 $daysDiff 天，折算年化利率: ${"%.2f".format(annualized)}%"
+                } else if (daysDiff == 0) {
+                    "持有时间不足 1 天"
+                } else {
+                    "确认日期不能晚于今天"
+                }
+            } else {
+                "请输入日期 (格式: 2026-4-22 或 4-22) 和收益"
+            }
+
+            Text(
+                resultText,
+                style = MaterialTheme.typography.bodyLarge,
+                color = if (resultText.contains("年化")) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+            )
         }
     }
 }
